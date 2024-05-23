@@ -18,7 +18,7 @@ from modules.processing import Processed, process_images
 from modules.shared import state
 from scripts.extrafiles import get_negative, get_excluded_words
 from scripts.modeltags import get_loras, get_embeddings, get_lora_trigger_words, get_embedding_trigger_words, get_trigger_files
-from openai import OpenAI
+# from openai import OpenAI
 
 from PIL import Image 
 from pathlib import Path
@@ -47,7 +47,9 @@ script_callbacks.on_ui_settings(on_ui_settings)
 
 
 class Script(scripts.Script):
-
+    def __init__(self):
+        super().__init__()
+        self.guide = False
     def title(self):
         return "iF_prompt_MKR"
     
@@ -646,9 +648,11 @@ class Script(scripts.Script):
             prompt: A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy.                             
             Make a prompt for the following Subject:
             """)
-
-        print(prime_directive)
-
+        
+        if not self.guide:
+            print(prime_directive)
+            self.guide = True
+            
         if api_choice == 'ollama':
              data = {
                 'model': select_text_model,
@@ -677,7 +681,8 @@ class Script(scripts.Script):
                 if generated_text:
                     processed_text = self.process_text(generated_text, not_allowed_words, remove_weights, remove_author)
                     generated_texts.append(processed_text)
-
+        print(f"api_choice : {api_choice}")
+        print(f"generated_texts : {generated_texts}")
         return generated_texts
 
     def run(self, p, selected_character, prompt_prefix, input_prompt, prompt_subfix, dynamic_excluded_words, negative_prompt, prompt_mode, batch_count, batch_size, remove_weights, remove_author, select_text_model, style_prompt, embellish_prompt, *args, **kwargs):
@@ -689,7 +694,7 @@ class Script(scripts.Script):
         batch_size = int(batch_size) 
         excluded_path = os.path.join(script_dir, "excluded/excluded_words.txt")   
         not_allowed_words = get_excluded_words(dynamic_excluded_words, excluded_path)
-        print(f"p: {p}")
+        # print(f"p: {p}")
         print(f"selected_character: {selected_character}")
         print(f"input_prompt: {input_prompt}")
         print(f"batch_count: {batch_count}")
