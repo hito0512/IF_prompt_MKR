@@ -695,15 +695,15 @@ class Script(scripts.Script):
         excluded_path = os.path.join(script_dir, "excluded/excluded_words.txt")   
         not_allowed_words = get_excluded_words(dynamic_excluded_words, excluded_path)
         # print(f"p: {p}")
-        print(f"selected_character: {selected_character}")
-        print(f"input_prompt: {input_prompt}")
-        print(f"batch_count: {batch_count}")
-        print(f"batch_size: {batch_size}")
-        print(f"remove_weights: {remove_weights}")
-        print(f"remove_author: {remove_author}")
-        print(f"not_allowed_words: {not_allowed_words}")
-        print(f"prompt_per_image: {prompt_per_image}")
-        print(f"select_text_model: {select_text_model}")
+        # print(f"selected_character: {selected_character}")
+        # print(f"input_prompt: {input_prompt}")
+        # print(f"batch_count: {batch_count}")
+        # print(f"batch_size: {batch_size}")
+        # print(f"remove_weights: {remove_weights}")
+        # print(f"remove_author: {remove_author}")
+        # print(f"not_allowed_words: {not_allowed_words}")
+        # print(f"prompt_per_image: {prompt_per_image}")
+        # print(f"select_text_model: {select_text_model}")
 
 
         generated_texts = self.generate_text(p, selected_character, input_prompt, batch_count, batch_size, remove_weights, remove_author, not_allowed_words, prompt_per_image, select_text_model)
@@ -806,5 +806,5 @@ class Script(scripts.Script):
             imges_p.insert(0, grid)
             images.save_image(grid, p.outpath_grids, "grid", grid=True, p=p)
         
-
+        print('\n')
         return Processed(p, imges_p, p.seed, "", all_prompts=all_prompts, infotexts=infotexts)    
